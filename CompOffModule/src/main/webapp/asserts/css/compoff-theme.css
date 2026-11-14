@@ -1,0 +1,54 @@
+/* ============================================================
+   Comp Off module - THEME
+   Change the look of every Comp Off page here (colours, fonts, sizes, radii).
+   compoff.css only uses these variables, so it never needs editing for a re-skin.
+   Linked from layout/header.jsp, before compoff.css.
+   ============================================================ */
+:root {
+  /* Page */
+  --co-font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --co-bg: #f4f6fa;
+  --co-card: #ffffff;
+  --co-ink: #1c2433;
+  --co-muted: #667085;
+  --co-line: #e3e8ef;
+  --co-input-border: #c9d1de;
+  --co-readonly-bg: #eef0f3;
+  --co-radius: 10px;
+  --co-radius-sm: 6px;
+
+  /* Sidebar */
+  /* Page frame (your application's look): top bar, menu bar, page width, header / menu / title font */
+  --co-top-bg: #134f47;
+  --co-top-muted: #a9d6cb;
+  --co-menu-bg: #1e8870;
+  --co-page-width: 1100px;
+  --co-brand-font: "Montserrat", "Gotham", "Segoe UI", Arial, sans-serif;
+  /* Dark bars used inside pages (selection bar, totals chip) */
+  --co-side-bg: #14213d;
+  --co-side-ink: #cfd8ea;
+
+  /* Buttons / accents */
+  --co-primary: #ef7d1a;
+  --co-primary-hover: #d96a0b;
+  --co-primary-ink: #ffffff;
+  --co-primary-soft: #fdeedd;
+  --co-focus: #2a5bd7;
+  --co-danger-bg: #fdeceb;
+  --co-danger-border: #f3c1bc;
+  --co-danger-ink: #b3392f;
+  --co-danger-hover: #fbdad7;
+  --co-error: #b42318;
+  --co-link: #2a5bd7;
+  --co-avail: #8a3b00;
+
+  /* Status badges */
+  --co-ok: #177a46;        --co-ok-bg: #e4f6ec;
+  --co-warn: #9a6700;      --co-warn-bg: #fff3d6;
+  --co-bad: #b42318;       --co-bad-bg: #fde8e6;
+  --co-info: #175cd3;      --co-info-bg: #e6efff;
+  --co-gray: #475467;      --co-gray-bg: #eef0f3;
+  --co-used: #6941c6;      --co-used-bg: #f1ebfd;
+  --co-done: #0e6f86;      --co-done-bg: #e0f3f7;
+  --co-hint-ink: #134aa0;
+}

@@ -1,0 +1,33 @@
+<%-- Month / year picker of an approval page: the lists show the requests APPLIED in that month (after Go).
+     The including page sets #periodAction (its own action) and may set #monthLabel / #periodHintText. --%>
+<div class="card">
+  <form id="periodForm" method="get" novalidate action="<s:url action='%{#periodAction}' namespace='/'/>">
+    <div class="row period">
+      <s:set var="selMonth" value="month"/><s:set var="selYear" value="year"/>
+      <div class="f<s:if test="fieldErrors['month'] != null"> bad</s:if>" id="f_month">
+        <label for="month"><s:if test="#monthLabel != null"><s:property value="#monthLabel"/></s:if><s:else>Month applied</s:else> <span class="req">*</span></label>
+        <select id="month" name="month">
+          <option value="">Select month</option>
+          <s:iterator value="monthNames" status="st">
+            <option value="<s:property value='#st.count'/>"<s:if test="#st.count.toString() == #selMonth"> selected</s:if>><s:property/></option>
+          </s:iterator>
+        </select>
+        <div class="err"><s:property value="fieldErrors['month'][0]"/></div>
+      </div>
+      <div class="f<s:if test="fieldErrors['year'] != null"> bad</s:if>" id="f_year">
+        <label for="year">Year <span class="req">*</span></label>
+        <select id="year" name="year">
+          <option value="">Select year</option>
+          <s:iterator value="yearOptions">
+            <option value="<s:property/>"<s:if test="top.toString() == #selYear"> selected</s:if>><s:property/></option>
+          </s:iterator>
+        </select>
+        <div class="err"><s:property value="fieldErrors['year'][0]"/></div>
+      </div>
+      <div class="f"><label>&nbsp;</label><button type="submit" class="p">Go</button><div class="err"></div></div>
+    </div>
+  </form>
+</div>
+<s:if test="periodLabel == null">
+<div class="card"><div class="empty" id="periodHint"><s:if test="#periodHintText != null"><s:property value="#periodHintText"/></s:if><s:else>Select the month and year the requests were applied in, then click Go.</s:else></div></div>
+</s:if>

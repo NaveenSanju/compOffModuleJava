@@ -1,0 +1,330 @@
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../newStyle/images/xfavicon1.png" rel="shortcut icon" />
+<title>Handdy timesheets : Leave</title>
+
+<link rel="stylesheet" href="newStyle/css/style.css" type="text/css">
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+
+</head>
+
+<body>
+
+
+
+
+
+
+
+	<script type="text/javascript" src="newStyle/js/supernote.js"></script>
+	<script type="text/javascript">
+var supernote = new SuperNote('supernote', {});
+function animFade(ref, counter)
+{
+ var f = ref.filters, done = (counter == 1);
+ if (f)
+ {
+  if (!done && ref.style.filter.indexOf("alpha") == -1)
+   ref.style.filter += ' alpha(opacity=' + (counter * 100) + ')';
+  else if (f.length && f.alpha) with (f.alpha)
+  {
+   if (done) enabled = false;
+   else { opacity = (counter * 100); enabled=true }
+  }
+ }
+ else ref.style.opacity = ref.style.MozOpacity = counter*0.999;
+};
+supernote.animations[supernote.animations.length] = animFade;
+
+var userTypeObjHead;
+userTypeObjHead='S';
+if(userTypeObjHead!='admin'){
+	$.ajaxSetup({ cache: false });
+		$.getJSON("getStaffMessageNotificationList.action", function(data1) {
+		$.ajaxSetup({ cache: true });
+		var datalength1 = 0;
+		for(var prop in data1){
+		    if(data1.hasOwnProperty(prop))
+		    	datalength1++;
+		}
+		//alert(datalength1+"----datalength1---");
+		if(datalength1>0){
+			var html='';
+			 $.each(data1, function(key1, value1) {  	
+				 
+				$('#notificationAgentImg').css('display','block');	
+				$('#unread').text("Message ("+key1+" unread)");
+				
+				
+			});	
+		}else{
+			 $('#notificationAgentImg').css('display','none');
+		}
+		});
+}
+</script>
+
+	<div id="header">
+		<div class="headerSec">
+			<div class="logo">
+				<img src="newStyle/images/logo.png" alt="logo" />
+			</div>
+			<div class="user_center">
+
+				<span id="notificationAgentImg"><a
+					href="staffMyMessages.action"><span id="unread"
+						style="cursor: pointer;"></span></a></span>
+
+			</div>
+			<div class="user_right">
+				<span>Naveen<a href="#supernote-note-demoinline"
+					class="supernote-click-demoinline"></a></span>
+			</div>
+			<div class="clear"></div>
+
+			<div id="supernote-note-demoinline">
+				<div class="settings_arrow"></div>
+				<ul>
+					<li class="select"><div class="edit_profile select">
+							<p>
+								<a href="profileSettings.action"
+									style="text-decoration: underline;">Naveen</a>
+							</p>
+						</div></li>
+
+					<li><div class="edit_profile">
+							<p class="help">
+								<a href="logout.action">Signout</a>
+							</p>
+						</div></li>
+					<!--                             <li><div class="edit_profile"><p class="help"><a href="staffHome.action">Dashboard</a></p></div></li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+<html>
+<body>
+
+	<div id="nav">
+		<ul>
+
+			<li><a class="" href="staffHome.action">Home</a></li>
+			<li><a class="" href="timesheet.action" id="timeView">My
+					timesheet</a>
+				<ul>
+					<li><a href="timesheet.action">Day view</a></li>
+					<li><a href="WeeklyView.action">Week view</a></li>
+				</ul></li>
+
+			<li><a class="current" href="peoplesLeaveLanding.action">Leave</a></li>
+
+			<li><a class="" href="reportsLanding.action">Reports</a></li>
+			<li><a class="" href="settings.action">Settings</a></li>
+
+
+		</ul>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+<div id="wrapper">
+
+	<form name="myform" method="post">
+		<input type="hidden" name="userId" id="userId" value="2333040">
+		<input type="hidden" name="userType" id="userType" value="S">
+
+		<div id="container">
+
+			<div class="reportsL">
+				<h1>Leave</h1>
+<!-- 				<div id="reportsL_mainDiv"> -->
+
+
+
+
+<!-- 					<div class="actions report"> -->
+<!-- 						<h2>Leave request</h2> -->
+<!-- 						<ul> -->
+<!-- 							<li><a href="leaveRequest.action">Leave request</a></li> -->
+<!-- 									       		 <li><a href="javascript:;" class="disableLink">Leave request</a></li> -->
+
+
+
+
+
+
+
+<!-- 							<li><a href="casualleaveRequest.action">Casual Leave -->
+<!-- 									request</a></li> -->
+
+
+
+
+
+
+
+
+
+
+<!-- 									       		 <li><a href="javascript:;" class="disableLink">Casual Leave request (Work in progress...)</a></li> -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- 							<li><a href="javascript:;" class="disableLink">Sick -->
+<!-- 									Leave request (Apply Casual Leave)</a></li> -->
+
+
+
+
+<!-- 						</ul> -->
+<!-- 					</div> -->
+
+
+
+<!-- 					<div class="actions report" style="float: right"> -->
+<!-- 						<h2>Comp off request</h2> -->
+
+
+<!-- 						<ul> -->
+
+
+<!-- 										       			 	<li><a href="compoffRequest.action">Comp off request</a></li> -->
+<!-- 							<li><a href="javascript:;" class="disableLink">Comp off -->
+<!-- 									request (Work in progress...)</a></li> -->
+
+
+
+
+<!-- 						</ul> -->
+
+<!-- 					</div> -->
+
+<!-- 					<div class="clear"></div> -->
+
+
+<!-- 					<div class="actions report"> -->
+<!-- 						<h2>Cancel leave request</h2> -->
+<!-- 						<ul> -->
+<!-- 							<li><a href="cancelLeaveRequest.action">Cancel leave -->
+<!-- 									request</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+
+
+
+<!-- 					<div class="actions report" style="float: right"> -->
+<!-- 						<h2>Cancel comp off request</h2> -->
+<!-- 						<ul> -->
+<!-- 							<li><a href="cancelCompOffRequest.action">Cancel comp -->
+<!-- 									off request</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+
+
+
+
+
+
+
+<!-- 					<div class="actions report"> -->
+<!-- 						<h2>My leave report</h2> -->
+<!-- 						<ul> -->
+<!-- 							<li><a href="leaveDayView.action">Leave day view</a></li> -->
+<!-- 							<li><a href="leaveMonthView.action">Leave month view</a></li> -->
+<!-- 							<li><a href="leaveMonthlyTimesheet.action">Monthly -->
+<!-- 									timesheet and leave</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+
+
+
+<!-- 					<div class="actions report" style="float: right"> -->
+<!-- 						<h2>My comp off report</h2> -->
+<!-- 						<ul> -->
+<!-- 							<li><a href="compoffDayView.action">Comp off day view</a></li> -->
+<!-- 							<li><a href="compOffMonthView.action">Comp off month -->
+<!-- 									view</a></li> -->
+
+<!-- 						</ul> -->
+<!-- 					</div> -->
+
+<!-- 					<div class="clear"></div> -->
+
+
+
+
+
+
+<!-- 					<div class="clear"></div> -->
+
+
+
+<!-- 					<div class="actions report" style="float: right"> -->
+<!-- 						<h2>Holiday working details</h2> -->
+<!-- 						<ul> -->
+
+
+
+<!-- 							<li><a href="holidayIntimation1.action">Holiday working -->
+<!-- 									details</a></li> -->
+
+
+<!-- 										       		 <li class="line"><a href="cancelWorkIntimation.action">Do you send wrong intimation to your TL/Manager <br> or <br>Not worked on holiday <br> or <br>Need to cancel the date from the holiday working? <br> Cancel here</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+
+
+
+
+
+
+
+
+					<div class="clear"></div>
+
+
+
+				</div>
+
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+
+		</div>
+		<!-- end -->
+	</form>
+	<!-- Container end here -->
+	<!--Footer-->
+	<div id="footer">
+		<p>
+			Powered by <img alt="" src="newStyle/images/google.png"> app
+			engine. Copyright &copy; Handdy.com
+		</p>
+		<div class="clear"></div>
+	</div>
+	<!--End Footer-->
+</div>
+</body>
+</html>
+

@@ -1,0 +1,47 @@
+<%-- Filters of the Holiday View / Comp Off View reports. The including page sets #reportAction. --%>
+<form id="reportForm" method="get" novalidate action="<s:url action='%{#reportAction}' namespace='/'/>">
+  <input type="hidden" name="run" value="1">
+  <div class="row">
+    <div class="f<s:if test="fieldErrors['fromDate'] != null"> bad</s:if>" id="f_fromDate">
+      <label for="fromDate_t">From <span class="req">*</span></label>
+      <div class="dpw">
+        <input type="text" class="dpt" id="fromDate_t" readonly placeholder="dd Mon yyyy" autocomplete="off">
+        <input type="hidden" id="fromDate" name="fromDate" value="<s:property value='fromDate'/>">
+      </div>
+      <div class="err"><s:property value="fieldErrors['fromDate'][0]"/></div>
+    </div>
+    <div class="f<s:if test="fieldErrors['toDate'] != null"> bad</s:if>" id="f_toDate">
+      <label for="toDate_t">To <span class="req">*</span></label>
+      <div class="dpw">
+        <input type="text" class="dpt" id="toDate_t" readonly placeholder="dd Mon yyyy" autocomplete="off">
+        <input type="hidden" id="toDate" name="toDate" value="<s:property value='toDate'/>">
+      </div>
+      <div class="err"><s:property value="fieldErrors['toDate'][0]"/></div>
+    </div>
+    <s:set var="selTeam" value="teamId"/><s:set var="selStaff" value="staffFilter"/>
+    <div class="f<s:if test="fieldErrors['teamId'] != null"> bad</s:if>" id="f_teamId">
+      <label for="teamId">Select team</label>
+      <select id="teamId" name="teamId">
+        <option value="">All teams</option>
+        <s:iterator value="teams">
+          <option value="<s:property value="top['teamId']"/>"<s:if test="top['teamId'].toString() == #selTeam"> selected</s:if>><s:property value="top['teamName']"/></option>
+        </s:iterator>
+      </select>
+      <div class="err"><s:property value="fieldErrors['teamId'][0]"/></div>
+    </div>
+    <div class="f<s:if test="fieldErrors['staffFilter'] != null"> bad</s:if>" id="f_staffFilter">
+      <label for="staffFilter">Select staff</label>
+      <select id="staffFilter" name="staffFilter">
+        <option value="">All staff</option>
+        <s:iterator value="staffOptions">
+          <option value="<s:property value="top['staffId']"/>" data-team="<s:property value="top['teamId']"/>"<s:if test="top['staffId'].toString() == #selStaff"> selected</s:if>><s:property value="top['staffName']"/> (<s:property value="top['employeeCode']"/>)</option>
+        </s:iterator>
+      </select>
+      <div class="err"><s:property value="fieldErrors['staffFilter'][0]"/></div>
+    </div>
+  </div>
+  <div class="btns">
+    <button type="submit" class="p">Go</button>
+    <a class="btn plain" href="<s:url action='%{#reportAction}' namespace='/'/>">Reset</a>
+  </div>
+</form>

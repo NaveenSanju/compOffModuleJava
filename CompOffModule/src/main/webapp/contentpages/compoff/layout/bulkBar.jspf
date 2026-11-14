@@ -1,0 +1,6 @@
+<%-- Approve / Reject bar for the ticked rows (shown by compoff.js once something is ticked). --%>
+<div class="bulk" data-bulk style="visibility:hidden">
+  <span class="bc"></span>
+  <button type="button" class="sm p" data-act="decide" data-decision="approve">Approve</button>
+  <button type="button" class="sm d" data-act="decide" data-decision="reject">Reject</button>
+</div>

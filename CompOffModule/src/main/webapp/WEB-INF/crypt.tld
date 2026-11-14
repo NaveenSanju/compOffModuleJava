@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <ed:crypt data="..." type="EPT|DPT"/>: encrypts (EPT) or decrypts (DPT) a value with com.util.CipherText. -->
+<!-- No xsi:schemaLocation: editor XML checkers misread the JSP 2.1 schema's tag-name-uniqueness rule and report
+     a false error; Tomcat does not need it (the file validates against web-jsptaglibrary_2_1.xsd). -->
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" version="2.1">
+  <tlib-version>1.0</tlib-version>
+  <short-name>ed</short-name>
+  <uri>/WEB-INF/crypt.tld</uri>
+  <tag>
+    <name>crypt</name>
+    <tag-class>com.eptdpttag.EptDptTag</tag-class>
+    <body-content>empty</body-content>
+    <attribute><name>data</name><required>true</required><rtexprvalue>true</rtexprvalue></attribute>
+    <attribute><name>type</name><required>true</required><rtexprvalue>true</rtexprvalue></attribute>
+  </tag>
+</taglib>

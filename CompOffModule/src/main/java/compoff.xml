@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+ "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+ "http://struts.apache.org/dtds/struts-2.3.dtd">
+<!--
+  Comp Off module. Every action is checked by CompOffAction.access(...) (session staffID / companyID / userType,
+  the access levels of the page, Desktop App Settings); there is no interceptor.
+  Included from the host application's struts.xml:   <include file="compoff.xml"></include>
+  Needs, in the host application:
+    - an action "sessionexpire" in the root namespace (the session-expired / login page);
+    - the login to set the session attributes staffID and companyID (Staffs.staffID / Staffs.companyID);
+    - struts.action.excludePattern to include /processHolidayApprovals,/processCompOffApprovals (approval servlets).
+  This file sets no constants and no default action, so nothing of the host application's configuration changes.
+-->
+<struts>
+ <!-- Comp Off module: /<action>1.action in the root namespace. Every action needs a user logged in through the host
+      application's login (session staffID / companyID / userType) with an access level the page allows. -->
+ <package name="compoff1" namespace="/" extends="struts-default">
+   <global-results>
+     <!-- not logged in / session ended: the host application's session-expired page -->
+     <result name="sessionOut" type="redirectAction">
+       <param name="namespace">/</param>
+       <param name="actionName">sessionexpire</param>
+     </result>
+     <result name="forbidden">/contentpages/compoff/accessDenied.jsp</result>
+     <result name="error">/contentpages/compoff/error.jsp</result>
+   </global-results>
+
+   <!-- /home1: entry point of the module (the host application's Comp Off menu item): the user's first page -->
+   <action name="home1" class="com.action.CompOffAction" method="home">
+     <result name="home" type="redirectAction">
+       <param name="namespace">/</param>
+       <param name="actionName">${homeAction}</param>
+     </result>
+   </action>
+
+   <!-- /leave1: the module's Leave page - the Comp Off cards of the logged-in user (layout/leaveLinks.jsp) -->
+   <action name="leave1" class="com.action.CompOffAction" method="leave">
+     <result name="success">/contentpages/compoff/leave.jsp</result>
+   </action>
+
+   <!-- ===== Employee + Approver ===== -->
+   <!-- a user DesktopAppSettings gives no page of the module: the header with name and Log out only -->
+   <action name="start1" class="com.action.CompOffAction" method="start">
+     <result name="success">/contentpages/compoff/start.jsp</result>
+   </action>
+   <action name="holidayIntimation1" class="com.action.CompOffAction" method="holidayIntimation">
+     <result name="success">/contentpages/compoff/holidayIntimation.jsp</result>
+   </action>
+   <action name="submitHolidayIntimation1" class="com.action.CompOffAction" method="submitHolidayIntimation">
+     <result name="input">/contentpages/compoff/holidayIntimation.jsp</result>
+     <result name="redirect" type="redirectAction">holidayIntimation1</result>
+   </action>
+   <action name="cancelHolidayIntimation1" class="com.action.CompOffAction" method="cancelHolidayIntimation">
+     <result name="success">/contentpages/compoff/cancelHolidayIntimation.jsp</result>
+   </action>
+   <action name="doCancelHolidayIntimation1" class="com.action.CompOffAction" method="doCancelHolidayIntimation">
+     <result name="redirect" type="redirectAction">cancelHolidayIntimation1</result>
+   </action>
+   <action name="compOffBalance1" class="com.action.CompOffAction" method="compOffBalance">
+     <result name="success">/contentpages/compoff/compOffBalance.jsp</result>
+   </action>
+   <action name="applyCompOff1" class="com.action.CompOffAction" method="applyCompOff">
+     <result name="success">/contentpages/compoff/applyCompOff.jsp</result>
+   </action>
+   <action name="submitCompOff1" class="com.action.CompOffAction" method="submitCompOff">
+     <result name="input">/contentpages/compoff/applyCompOff.jsp</result>
+     <result name="redirect" type="redirectAction">applyCompOff1</result>
+   </action>
+   <action name="cancelCompOffRequest1" class="com.action.CompOffAction" method="cancelCompOffRequest">
+     <result name="success">/contentpages/compoff/cancelCompOff.jsp</result>
+   </action>
+   <action name="cancelCompOff1" class="com.action.CompOffAction" method="cancelCompOff">
+     <result name="redirect" type="redirectAction">cancelCompOffRequest1</result>
+   </action>
+
+   <!-- My Comp Off Report: the logged-in staff member's own Comp Off (Employees and Approvers) -->
+   <action name="compOffDayView1" class="com.action.CompOffAction" method="compOffDayView">
+     <result name="success">/contentpages/compoff/compOffDayView.jsp</result>
+   </action>
+   <action name="compOffMonthView1" class="com.action.CompOffAction" method="compOffMonthView">
+     <result name="success">/contentpages/compoff/compOffMonthView.jsp</result>
+   </action>
+
+   <!-- My Team Reports: Comp Off days of the approver's own team -->
+   <action name="teamCompOffMonthView1" class="com.action.CompOffAction" method="teamCompOffMonthView">
+     <result name="success">/contentpages/compoff/teamCompOffMonthView.jsp</result>
+   </action>
+
+   <!-- ===== Approver only ===== -->
+   <action name="approveCompOff1" class="com.action.CompOffAction" method="approveCompOff">
+     <result name="success">/contentpages/compoff/approveCompOff.jsp</result>
+     <!-- an email link meant for another approver: back to the page without the link, with a message -->
+     <result name="redirect" type="redirectAction">
+       <param name="actionName">approveCompOff1</param>
+       <param name="suppressEmptyParameters">true</param>
+       <param name="month">${month}</param>
+       <param name="year">${year}</param>
+     </result>
+   </action>
+   <action name="decideCompOff1" class="com.action.CompOffAction" method="decideCompOff">
+     <result name="redirect" type="redirectAction">
+       <param name="actionName">approveCompOff1</param>
+       <param name="suppressEmptyParameters">true</param>
+       <param name="month">${month}</param>
+       <param name="year">${year}</param>
+     </result>
+   </action>
+   <action name="approveHolidayWorking1" class="com.action.CompOffAction" method="approveHolidayWorking">
+     <result name="success">/contentpages/compoff/approveHolidayWorking.jsp</result>
+     <result name="redirect" type="redirectAction">
+       <param name="actionName">approveHolidayWorking1</param>
+       <param name="suppressEmptyParameters">true</param>
+       <param name="month">${month}</param>
+       <param name="year">${year}</param>
+     </result>
+   </action>
+   <action name="decideHolidayWorking1" class="com.action.CompOffAction" method="decideHolidayWorking">
+     <result name="redirect" type="redirectAction">
+       <param name="actionName">approveHolidayWorking1</param>
+       <param name="suppressEmptyParameters">true</param>
+       <param name="month">${month}</param>
+       <param name="year">${year}</param>
+     </result>
+   </action>
+
+   <!-- ===== Admin only (reports) ===== -->
+   <action name="compOffDetailsReport1" class="com.action.CompOffAction" method="compOffDetailsReport">
+     <result name="success">/contentpages/compoff/compOffDetailsReport.jsp</result>
+   </action>
+   <action name="holidayViewReport1" class="com.action.CompOffAction" method="holidayViewReport">
+     <result name="success">/contentpages/compoff/holidayViewReport.jsp</result>
+   </action>
+   <action name="compOffViewReport1" class="com.action.CompOffAction" method="compOffViewReport">
+     <result name="success">/contentpages/compoff/compOffViewReport.jsp</result>
+   </action>
+   <action name="compOffHistoryReport1" class="com.action.CompOffAction" method="compOffHistoryReport">
+     <result name="success">/contentpages/compoff/compOffHistoryReport.jsp</result>
+   </action>
+
+   <action name="holidayUsageReport1" class="com.action.CompOffAction" method="holidayUsageReport">
+     <result name="success">/contentpages/compoff/holidayUsageReport.jsp</result>
+   </action>
+   <action name="holidayUsageExcel1" class="com.action.CompOffAction" method="holidayUsageExcel">
+     <result name="success">/contentpages/compoff/holidayUsageReport.jsp</result>
+     <result name="excel" type="stream">
+       <param name="contentType">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</param>
+       <param name="inputName">excelStream</param>
+       <param name="contentDisposition">attachment;filename="${excelFileName}"</param>
+       <param name="bufferSize">8192</param>
+     </result>
+   </action>
+
+   <!-- Comp Off Balance and Details Report: all staff, and View Details of one staff member (sid = encrypted staffID) -->
+   <action name="compOffBalanceReport1" class="com.action.CompOffAction" method="compOffBalanceReport">
+     <result name="success">/contentpages/compoff/compOffBalanceReport.jsp</result>
+   </action>
+   <action name="compOffBalanceExcel1" class="com.action.CompOffAction" method="compOffBalanceExcel">
+     <result name="success">/contentpages/compoff/compOffBalanceReport.jsp</result>
+     <result name="excel" type="stream">
+       <param name="contentType">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</param>
+       <param name="inputName">excelStream</param>
+       <param name="contentDisposition">attachment;filename="${excelFileName}"</param>
+       <param name="bufferSize">8192</param>
+     </result>
+   </action>
+   <action name="compOffBalanceStaff1" class="com.action.CompOffAction" method="compOffBalanceStaff">
+     <result name="success">/contentpages/compoff/compOffBalanceStaff.jsp</result>
+     <result name="list">/contentpages/compoff/compOffBalanceReport.jsp</result>
+   </action>
+   <action name="compOffBalanceStaffExcel1" class="com.action.CompOffAction" method="compOffBalanceStaffExcel">
+     <result name="success">/contentpages/compoff/compOffBalanceStaff.jsp</result>
+     <result name="list">/contentpages/compoff/compOffBalanceReport.jsp</result>
+     <result name="excel" type="stream">
+       <param name="contentType">application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</param>
+       <param name="inputName">excelStream</param>
+       <param name="contentDisposition">attachment;filename="${excelFileName}"</param>
+       <param name="bufferSize">8192</param>
+     </result>
+   </action>
+
+   <!-- ===== Admin only (settings) ===== -->
+   <action name="approverManagement1" class="com.action.CompOffAction" method="approverManagement">
+     <result name="success">/contentpages/compoff/approverManagement.jsp</result>
+   </action>
+   <action name="generalSettings1" class="com.action.CompOffAction" method="generalSettings">
+     <result name="success">/contentpages/compoff/generalSettings.jsp</result>
+   </action>
+   <!-- Comp Off decisions held In Process after the salary cut-off: the Admin processes them per month -->
+   <action name="compOffProcessing1" class="com.action.CompOffAction" method="compOffProcessing">
+     <result name="success">/contentpages/compoff/compOffProcessing.jsp</result>
+   </action>
+   <action name="processCompOffMonth1" class="com.action.CompOffAction" method="processCompOffMonth">
+     <result name="redirect" type="redirectAction">
+       <param name="actionName">compOffProcessing1</param>
+       <param name="suppressEmptyParameters">true</param>
+       <param name="month">${month}</param>
+       <param name="year">${year}</param>
+     </result>
+   </action>
+   <action name="saveGeneralSettings1" class="com.action.CompOffAction" method="saveGeneralSettings">
+     <result name="redirect" type="redirectAction">generalSettings1</result>
+   </action>
+   <!-- Apply Comp Off for Staff: Comp Off saved as Approved by the Admin, for staff found by employee code -->
+   <action name="adminApplyCompOff1" class="com.action.CompOffAction" method="adminApplyCompOff">
+     <result name="success">/contentpages/compoff/adminApplyCompOff.jsp</result>
+   </action>
+   <action name="saveAdminCompOff1" class="com.action.CompOffAction" method="saveAdminCompOff">
+     <result name="input">/contentpages/compoff/adminApplyCompOff.jsp</result>
+     <result name="redirect" type="redirectAction">adminApplyCompOff1</result>
+   </action>
+   <!-- Comp Off Cancel: the Admin cancels Pending / In Process / Approved Comp Off of any month -->
+   <action name="compOffCancel1" class="com.action.CompOffAction" method="compOffCancel">
+     <result name="success">/contentpages/compoff/compOffCancel.jsp</result>
+   </action>
+   <action name="cancelCompOffByAdmin1" class="com.action.CompOffAction" method="cancelCompOffByAdmin">
+     <result name="redirect" type="redirectAction">
+       <param name="actionName">compOffCancel1</param>
+       <param name="suppressEmptyParameters">true</param>
+       <param name="fromDate">${fromDate}</param>
+       <param name="toDate">${toDate}</param>
+       <param name="teamId">${teamId}</param>
+       <param name="staffFilter">${staffFilter}</param>
+       <param name="run">${run}</param>
+     </result>
+   </action>
+   <action name="saveDesktopSettings1" class="com.action.CompOffAction" method="saveDesktopSettings">
+     <result name="redirect" type="redirectAction">generalSettings1</result>
+   </action>
+   <action name="saveApprovers1" class="com.action.CompOffAction" method="saveApprovers">
+     <!-- back to the page with the same filters -->
+     <result name="redirect" type="redirectAction">
+       <param name="actionName">approverManagement1</param>
+       <param name="suppressEmptyParameters">true</param>
+       <param name="teamId">${teamId}</param>
+       <param name="q">${q}</param>
+       <param name="approvedBy">${approvedBy}</param>
+       <param name="userTypeId">${userTypeId}</param>
+       <param name="noneOnly">${noneOnly}</param>
+     </result>
+   </action>
+ </package>
+</struts>

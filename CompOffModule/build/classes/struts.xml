@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+   <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+<constant name="struts.multipart.maxSize" value="52428800" />
+
+<constant name="struts.action.excludePattern" value="/processHolidayApprovals,/processCompOffApprovals"/>
+
+<package name="default" extends="struts-default,json-default">
+   
+   <action name="login" class="com.action.LoginAction" method="login">
+     	<result name="success">/login.jsp</result>
+   </action>
+    
+    <action name="loginAuth" class="com.action.LoginAction" method="loginAuth">
+   		<result name="loginsuccess" type="redirect">home1.action</result>
+   		<result name="error" type="redirect">login.action</result>
+   </action>
+   
+   <action name="sessionexpire" class="com.action.LoginAction" method="logout">
+     	<result name="success">/login.jsp</result>
+   </action>
+   
+     <!-- <action name="holidayIntimation1" class="com.action.CompOffHolidayAction" method="holidayIntimation">
+     <result name="success">contentpages/compoff/holidayIntimation.jsp</result>
+     <result name="sessionOut" type="redirect">logout.action</result>
+     
+   </action>
+   <action name="submitHolidayIntimation1" class="com.action.CompOffHolidayAction" method="submitHolidayIntimation">
+     <result name="input">contentpages/compoff/holidayIntimation.jsp</result>
+     <result name="redirect" type="redirectAction">holidayIntimation1</result>
+   </action>
+   <action name="cancelHolidayIntimation1" class="com.action.CompOffHolidayAction" method="cancelHolidayIntimation">
+     <result name="success">contentpages/compoff/cancelHolidayIntimation.jsp</result>
+   </action>
+   <action name="doCancelHolidayIntimation1" class="com.action.CompOffHolidayAction" method="doCancelHolidayIntimation">
+     <result name="redirect" type="redirectAction">cancelHolidayIntimation1</result>
+   </action> -->
+   
+   
+   
+ </package>
+ 
+ 	<include file="compoff.xml"></include>
+ 
+</struts>
